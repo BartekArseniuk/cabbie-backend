@@ -2,18 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, Notifiable, HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'first_name',
         'last_name',
@@ -23,22 +20,13 @@ class User extends Model
         'bank_name',
         'bank_account_number',
         'role',
+        'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
-        'password', // Jeśli dodasz kolumnę `password`, dodaj ją tutaj
+        'password',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
