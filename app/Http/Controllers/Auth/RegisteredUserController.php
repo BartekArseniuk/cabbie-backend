@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
 class RegisteredUserController extends Controller
@@ -15,9 +14,13 @@ class RegisteredUserController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
+
+        if (User::where('email', $validated['email'])->exists()) {
+            return response()->json(['error' => 'User with this email already exists.'], 409);
+        }
 
         $user = User::create([
             'first_name' => $validated['first_name'],
