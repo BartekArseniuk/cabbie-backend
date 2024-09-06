@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zweryfikuj swój adres e-mail</title>
+    <title>Dziękujemy za weryfikację swojego adresu e-mail</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,28 +33,6 @@
             line-height: 1.5;
             margin-bottom: 15px;
         }
-        .cta-button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 14px;
-            color: #ffffff;
-            background-color: #007bff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        .cta-button:hover {
-            background-color: #0056b3;
-            transform: translateY(-1px);
-        }
-        .fallback-link {
-            display: block;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #007bff;
-            text-decoration: none;
-        }
         .footer {
             margin-top: 20px;
             font-size: 12px;
@@ -70,10 +48,6 @@
             p {
                 font-size: 12px;
             }
-            .cta-button {
-                padding: 8px 16px;
-                font-size: 12px;
-            }
             .footer {
                 font-size: 10px;
             }
@@ -82,13 +56,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Zweryfikuj swój adres e-mail</h1>
-        <p>Proszę kliknąć przycisk poniżej, aby zweryfikować swój adres e-mail.</p>
-        <a href="{{ $verificationUrl }}" class="cta-button">Zweryfikuj adres e-mail</a>
-        <p>Jeśli przycisk nie działa, kliknij w poniższy link:</p>
-        <a href="{{ $verificationUrl }}" class="fallback-link">{{ $verificationUrl }}</a>
+        <h1>Dziękujemy za weryfikację swojego adresu e-mail!</h1>
+        <p>Twój adres e-mail został pomyślnie zweryfikowany. Możesz teraz kontynuować korzystanie z naszej platformy.</p>
         <div class="footer">
-            <p>&copy; 2024 Cabbie. Wszystkie prawa zastrzeżone.</p>
+            <p>&copy; 2024 Twoja Firma. Wszystkie prawa zastrzeżone.</p>
         </div>
     </div>
 </body>

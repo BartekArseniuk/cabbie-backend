@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Mail\WelcomeMail;
+use App\Mail\VerifyEmail;
 
 class RegisteredUserController extends Controller
 {
@@ -19,20 +20,20 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
-
-        if (User::where('email', $validated['email'])->exists()) {
-            return response()->json(['error' => 'User with this email already exists.'], 409);
-        }
+    
+        $verificationToken = sha1($validated['email']);
 
         $user = User::create([
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'verification_token' => $verificationToken
         ]);
-
+    
         Mail::to($user->email)->send(new WelcomeMail($user));
-
+        Mail::to($user->email)->send(new VerifyEmail($user));
+    
         return response()->json($user, 201);
-    }
+    }    
 }
