@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\URL;
 
 class VerifyEmail extends Mailable
 {
@@ -13,22 +12,11 @@ class VerifyEmail extends Mailable
 
     public $user;
 
-    /**
-     * Create a new message instance.
-     *
-     * @param $user
-     * @return void
-     */
     public function __construct($user)
     {
         $this->user = $user;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         $verificationUrl = route(
@@ -37,7 +25,7 @@ class VerifyEmail extends Mailable
         );
     
         return $this->view('emails.verify-email')
-                    ->subject('Verify Your Email Address')
+                    ->subject('Zweryfikuj adres e-mail.')
                     ->with([
                         'verificationUrl' => $verificationUrl,
                     ]);

@@ -25,7 +25,7 @@
         }
         h1 {
             font-size: 20px;
-            color: #007bff;
+            color: #ffab00;
             margin-bottom: 15px;
         }
         p {
@@ -38,21 +38,21 @@
             padding: 10px 20px;
             font-size: 14px;
             color: #ffffff;
-            background-color: #007bff;
+            background-color: #ffab00;
             text-align: center;
             text-decoration: none;
             border-radius: 4px;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .cta-button:hover {
-            background-color: #0056b3;
+            background-color: #ffcd38;
             transform: translateY(-1px);
         }
         .fallback-link {
             display: block;
             margin-top: 15px;
             font-size: 14px;
-            color: #007bff;
+            color: #ffab00;
             text-decoration: none;
         }
         .footer {

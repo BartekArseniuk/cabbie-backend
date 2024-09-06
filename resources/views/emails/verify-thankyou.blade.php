@@ -25,7 +25,7 @@
         }
         h1 {
             font-size: 20px;
-            color: #007bff;
+            color: #ffab00;
             margin-bottom: 15px;
         }
         p {
@@ -59,7 +59,7 @@
         <h1>Dziękujemy za weryfikację swojego adresu e-mail!</h1>
         <p>Twój adres e-mail został pomyślnie zweryfikowany. Możesz teraz kontynuować korzystanie z naszej platformy.</p>
         <div class="footer">
-            <p>&copy; 2024 Twoja Firma. Wszystkie prawa zastrzeżone.</p>
+            <p>&copy; 2024 Cabbie. Wszystkie prawa zastrzeżone.</p>
         </div>
     </div>
 </body>
