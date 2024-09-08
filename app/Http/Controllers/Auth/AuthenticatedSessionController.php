@@ -12,7 +12,7 @@ class AuthenticatedSessionController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::user();
             $token = $user->createToken('Cabbie')->plainTextToken;
 
@@ -32,12 +32,16 @@ class AuthenticatedSessionController extends Controller
             Auth::guard('web')->logout();
 
             $request->session()->invalidate();
-
             $request->session()->regenerateToken();
 
             return response()->json(['message' => 'Logged out successfully']);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
+    }
+    
+    public function checkLoginStatus(Request $request)
+    {
+        return response()->json(['loggedIn' => Auth::check()]);
     }
 }

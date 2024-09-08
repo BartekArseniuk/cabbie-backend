@@ -1,47 +1,57 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AuthenticationTest extends TestCase
+class AuthenticatedSessionController extends Controller
 {
-    use RefreshDatabase;
-
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function store(Request $request)
     {
-        $user = User::factory()->create();
-
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'remember' => 'nullable|boolean', // walidacja dla "remember me"
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertNoContent();
+        // Próba logowania
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember'); // Sprawdzamy, czy zaznaczono "remember me"
+
+        if (Auth::attempt($credentials, $remember)) {
+            // Logowanie powiodło się
+            $request->session()->regenerate();
+
+            return response()->json(['message' => 'Zalogowano pomyślnie!'], 200);
+        }
+
+        // Jeśli logowanie się nie powiedzie
+        return response()->json(['error' => 'Nieprawidłowe dane logowania'], 401);
     }
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    public function destroy(Request $request)
     {
-        $user = User::factory()->create();
+        $user = Auth::user();
 
-        $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ]);
+        if ($user) {
+            // Usunięcie tokenów użytkownika
+            $user->tokens()->delete();
 
-        $this->assertGuest();
-    }
+            // Wylogowanie użytkownika z sesji web
+            Auth::guard('web')->logout();
 
-    public function test_users_can_logout(): void
-    {
-        $user = User::factory()->create();
+            // Inwalidacja sesji
+            $request->session()->invalidate();
 
-        $response = $this->actingAs($user)->post('/logout');
+            // Regeneracja CSRF tokena
+            $request->session()->regenerateToken();
 
-        $this->assertGuest();
-        $response->assertNoContent();
+            // Zwrócenie odpowiedzi JSON
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 }

@@ -17,10 +17,11 @@ class CreateUsersTable extends Migration
             $table->string('pesel')->nullable()->unique();
             $table->string('bank_name')->nullable();
             $table->string('bank_account_number')->nullable();
-            $table->string('role')->nullable();
+            $table->enum('role', ['admin', 'client'])->default('client');
             $table->string('password');
             $table->string('verification_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

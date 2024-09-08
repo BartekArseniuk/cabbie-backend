@@ -27,3 +27,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum')
     ->name('logout');
+
+Route::get('/check-login-status', [AuthenticatedSessionController::class, 'checkLoginStatus'])
+    ->middleware('auth:sanctum')
+    ->name('check-login');
