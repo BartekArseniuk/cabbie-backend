@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
@@ -31,3 +32,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/check-login-status', [AuthenticatedSessionController::class, 'checkLoginStatus'])
     ->middleware('auth:sanctum')
     ->name('check-login');
+
+Route::post('/submit-survey', [SurveyController::class, 'submitSurvey'])
+    ->middleware('auth:sanctum')
+    ->name('submit-survey');

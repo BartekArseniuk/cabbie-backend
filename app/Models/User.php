@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'password',
         'verification_token',
+        'is_first_login'
     ];
 
     protected $hidden = [
@@ -33,4 +34,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function surveyAnswers()
+    {
+        return $this->hasOne(SurveyAnswer::class);
+    }
 }

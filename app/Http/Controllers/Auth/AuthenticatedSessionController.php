@@ -16,7 +16,17 @@ class AuthenticatedSessionController extends Controller
             $user = Auth::user();
             $token = $user->createToken('Cabbie')->plainTextToken;
 
-            return response()->json(['token' => $token], 200);
+            $firstLogin = $user->is_first_login;
+
+            if ($firstLogin) {
+                $user->is_first_login = false;
+                $user->save();
+            }
+
+            return response()->json([
+                'token' => $token,
+                'firstLogin' => $firstLogin
+            ], 200);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
