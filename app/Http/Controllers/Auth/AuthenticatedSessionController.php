@@ -11,24 +11,25 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+    
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::user();
             $token = $user->createToken('Cabbie')->plainTextToken;
-
+    
             $firstLogin = $user->is_first_login;
-
+    
             if ($firstLogin) {
                 $user->is_first_login = false;
                 $user->save();
             }
-
+    
             return response()->json([
+                'userId' => $user->id,
                 'token' => $token,
                 'firstLogin' => $firstLogin
             ], 200);
         }
-
+    
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
