@@ -29,10 +29,12 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum')
     ->name('logout');
 
-Route::get('/check-login-status', [AuthenticatedSessionController::class, 'checkLoginStatus'])
-    ->middleware('auth:sanctum')
-    ->name('check-login');
+
 
 Route::post('/submit-survey', [SurveyController::class, 'submitSurvey'])
     ->middleware('auth:sanctum')
     ->name('submit-survey');
+
+Route::get('/first-login-status', [AuthenticatedSessionController::class, 'getFirstLoginStatus'])
+->middleware('auth:sanctum')
+->name('first-login-status');

@@ -18,15 +18,10 @@ class AuthenticatedSessionController extends Controller
     
             $firstLogin = $user->is_first_login;
     
-            if ($firstLogin) {
-                $user->is_first_login = false;
-                $user->save();
-            }
     
             return response()->json([
                 'userId' => $user->id,
                 'token' => $token,
-                'firstLogin' => $firstLogin
             ], 200);
         }
     
@@ -51,8 +46,14 @@ class AuthenticatedSessionController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
     
-    public function checkLoginStatus(Request $request)
+
+
+    public function getFirstLoginStatus(Request $request)
     {
-        return response()->json(['loggedIn' => Auth::check()]);
+        $user = auth()->user();
+
+        return response()->json([
+            'is_first_login' => $user->is_first_login,
+        ]);
     }
 }
