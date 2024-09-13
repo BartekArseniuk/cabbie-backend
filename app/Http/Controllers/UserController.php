@@ -40,7 +40,7 @@ class UserController extends Controller
             'phone_number' => 'nullable|string|max:20',
             'pesel' => 'nullable|string|max:11|unique:users,pesel,' . $id,
             'bank_name' => 'nullable|string|max:255',
-            'bank_account_number' => 'nullable|string|max:26',
+            'bank_account_number' => 'nullable|string|max:28',
         ]);
 
         if ($validator->fails()) {
