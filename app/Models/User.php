@@ -23,7 +23,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'password',
         'verification_token',
-        'is_first_login'
+        'verification_token_created_at',
+        'is_first_login',
     ];
 
     protected $hidden = [
@@ -33,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'verification_token_created_at' => 'datetime',
     ];
 
     public function surveyAnswers()

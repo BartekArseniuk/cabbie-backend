@@ -28,10 +28,12 @@ class RegisteredUserController extends Controller
             'last_name' => $validated['last_name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'verification_token' => $verificationToken
+            'verification_token' => $verificationToken,
+            'verification_token_created_at' => now(),
         ]);
     
         Mail::to($user->email)->send(new WelcomeMail($user));
+
         Mail::to($user->email)->send(new VerifyEmail($user));
     
         return response()->json($user, 201);

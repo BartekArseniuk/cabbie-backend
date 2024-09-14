@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->enum('role', ['admin', 'client'])->default('client');
             $table->string('password');
             $table->string('verification_token')->nullable();
+            $table->timestamp('verification_token_created_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('is_first_login')->default(true);
             $table->rememberToken();
