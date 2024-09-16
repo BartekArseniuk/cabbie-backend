@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Mail\WelcomeMail;
 use App\Mail\VerifyEmail;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -18,10 +19,18 @@ class RegisteredUserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8',
+            'password' => [
+                'required',
+                'string',
+                'min:12',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ],
         ]);
-    
-        $verificationToken = sha1($validated['email']);
+
+        $verificationToken = Str::random(40);
 
         $user = User::create([
             'first_name' => $validated['first_name'],
@@ -31,11 +40,10 @@ class RegisteredUserController extends Controller
             'verification_token' => $verificationToken,
             'verification_token_created_at' => now(),
         ]);
-    
-        Mail::to($user->email)->send(new WelcomeMail($user));
 
+        Mail::to($user->email)->send(new WelcomeMail($user));
         Mail::to($user->email)->send(new VerifyEmail($user));
-    
+
         return response()->json($user, 201);
     }    
 }

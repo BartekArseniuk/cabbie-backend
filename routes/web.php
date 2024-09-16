@@ -18,13 +18,13 @@ Route::get('/verify/{id}/{token}', [VerificationController::class, 'verify'])
     ->name('verification.verify');
 
 Route::get('/verify-thankyou', function () {
-    return view('emails.verify-thankyou');
+    return view('auth.verify-thankyou');
 })->name('verify-thankyou');
 
 Route::post('/resend-verification/{id}', [VerificationController::class, 'resendVerificationEmail']);
 
 Route::get('/verify-expired', function () {
-    return view('emails.verify-expired');
+    return view('auth.verify-expired');
 })->name('verify-expired');
 
 Route::get('/users', [UserController::class, 'index']);
@@ -43,5 +43,9 @@ Route::post('/password-reset', [PasswordResetController::class, 'reset'])
 Route::get('/password-reset-success', function () {
     return view('auth.password-reset-success');
 })->name('password.reset.success');
+
+Route::get('/password-reset-expired', function () {
+    return view('auth.password-reset-expired');
+})->name('password.reset.expired');
 
 require __DIR__.'/auth.php';

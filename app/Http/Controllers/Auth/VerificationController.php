@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
+use Illuminate\Support\Str;
 
 class VerificationController extends Controller
 {
@@ -15,7 +16,7 @@ class VerificationController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->verification_token !== $token) {
-            abort(403, 'Nieprawidłowy link weryfikacyjny.');
+            return redirect()->route('verify-expired');
         }
 
         $tokenExpirationTime = 60;
@@ -40,7 +41,7 @@ class VerificationController extends Controller
             return response()->json(['message' => 'E-mail został już zweryfikowany.'], 400);
         }
 
-        $user->verification_token = sha1($user->email);
+        $user->verification_token = Str::random(40);
         $user->verification_token_created_at = now();
         $user->save();
 
