@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Facades\Mail;
 
 class PasswordResetLinkController extends Controller
 {
@@ -20,20 +22,22 @@ class PasswordResetLinkController extends Controller
         $request->validate([
             'email' => ['required', 'email'],
         ]);
-
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status != Password::RESET_LINK_SENT) {
+    
+        $user = \App\Models\User::where('email', $request->email)->first();
+    
+        if (!$user) {
             throw ValidationException::withMessages([
-                'email' => [__($status)],
+                'email' => [__('We couldn\'t find a user with that email address.')],
             ]);
         }
-
-        return response()->json(['status' => __($status)]);
+    
+        $status = Password::createToken($user);
+    
+        if ($status) {
+            Mail::to($request->email)->send(new ResetPasswordMail($status, $request->email));
+        }
+    
+        return response()->json(['status' => __('Password reset link sent.')]);
     }
+    
 }

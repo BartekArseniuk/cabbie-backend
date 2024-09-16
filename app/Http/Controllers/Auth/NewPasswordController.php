@@ -50,4 +50,22 @@ class NewPasswordController extends Controller
 
         return response()->json(['status' => __($status)]);
     }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status === Password::RESET_LINK_SENT) {
+            $token = app('auth.password.broker')->createToken($request->user());
+            Mail::to($request->email)->send(new ResetPasswordMail($token));
+
+            return response()->json(['status' => __($status)]);
+        }
+
+        return response()->json(['email' => __($status)], 400);
+    }
 }
