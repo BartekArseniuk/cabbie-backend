@@ -32,8 +32,9 @@ class ResetPasswordMail extends Mailable
     public function build()
     {
         return $this->view('emails.reset_password')
+            ->subject('Żądanie zmiany hasła.')
             ->with([
-                'resetLink' => url('password-reset/'.$this->token.'?email='.$this->email),
+                'resetLink' => url('password-reset/' . $this->token . '?email=' . $this->email),
             ]);
     }
 }
