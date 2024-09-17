@@ -32,3 +32,16 @@ Route::post('/submit-survey', [SurveyController::class, 'submitSurvey'])
 Route::get('/first-login-status', [AuthenticatedSessionController::class, 'getFirstLoginStatus'])
 ->middleware('auth:sanctum')
 ->name('first-login-status');
+
+Route::middleware('auth:sanctum')->get('/user-status', function (Request $request) {
+    return response()->json([
+        'authenticated' => true,
+        'user' => $request->user()
+    ]);
+});
+
+Route::get('/user-status', function () {
+    return response()->json([
+        'authenticated' => false
+    ]);
+});
