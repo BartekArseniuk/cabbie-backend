@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Middleware\CheckSessionExpiry;
 
 
 Route::get('/', function () {
@@ -53,10 +55,9 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
 
 });
 
-
 Route::get('/test-session', function () {
     return response()->json(['message' => 'Session is valid']);
-})->middleware(\App\Http\Middleware\CheckSessionExpiry::class);
+})->middleware(CheckSessionExpiry::class);
 
 
 
