@@ -52,4 +52,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
     Route::get('/api/check-session', function () {
         return response()->json(['logged_in' => auth()->check()]);
     });
+
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+        //-----------------------------routes for admin------------------------------------------------
+    });
 });

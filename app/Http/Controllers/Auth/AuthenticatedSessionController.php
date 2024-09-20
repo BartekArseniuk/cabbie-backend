@@ -14,14 +14,12 @@ class AuthenticatedSessionController extends Controller
     
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::user();
-            $token = $user->createToken('Cabbie')->plainTextToken;
-    
-            $firstLogin = $user->is_first_login;
-    
+            $token = $user->createToken('Cabbie')->plainTextToken;    
     
             return response()->json([
                 'userId' => $user->id,
                 'token' => $token,
+                'role' => $user->role,
             ], 200);
         }
     
