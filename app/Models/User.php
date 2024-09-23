@@ -42,4 +42,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(SurveyAnswer::class);
     }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(PrivateMessage::class, 'sender_id');
+    }
 }

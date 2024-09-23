@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckSessionExpiry;
+use App\Http\Controllers\PrivateMessageController;
 
 Route::middleware([CheckSessionExpiry::class])->group(function () {
     
@@ -56,4 +57,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
     Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         //-----------------------------routes for admin------------------------------------------------
     });
+
+    Route::middleware('auth:sanctum')->get('/messages', [PrivateMessageController::class, 'index']);
+    Route::middleware('auth:sanctum')->post('/messages/send', [PrivateMessageController::class, 'sendMessage']);
+
 });
