@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\CheckSessionExpiry;
+use App\Http\Controllers\BlogController;
 
 
 Route::get('/', function () {
@@ -59,6 +60,7 @@ Route::get('/test-session', function () {
     return response()->json(['message' => 'Session is valid']);
 })->middleware(CheckSessionExpiry::class);
 
-
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{id}', [BlogController::class, 'show']);
 
 require __DIR__.'/auth.php';

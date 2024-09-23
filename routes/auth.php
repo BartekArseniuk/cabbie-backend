@@ -10,6 +10,7 @@ use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckSessionExpiry;
 use App\Http\Controllers\PrivateMessageController;
+use App\Http\Controllers\BlogController;
 
 Route::middleware([CheckSessionExpiry::class])->group(function () {
     
@@ -55,7 +56,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
     });
 
     Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-        //-----------------------------routes for admin------------------------------------------------
+        Route::post('/blogs', [BlogController::class, 'store']);
+        Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
     });
 
     Route::middleware('auth:sanctum')->get('/messages', [PrivateMessageController::class, 'index']);
