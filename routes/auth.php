@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckSessionExpiry;
 use App\Http\Controllers\PrivateMessageController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\GlobalMessageController;
 
 Route::middleware([CheckSessionExpiry::class])->group(function () {
     
@@ -62,5 +63,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
 
     Route::middleware('auth:sanctum')->get('/messages', [PrivateMessageController::class, 'index']);
     Route::middleware('auth:sanctum')->post('/messages/send', [PrivateMessageController::class, 'sendMessage']);
+
+    Route::middleware('auth:sanctum')->get('/global-messages', [GlobalMessageController::class, 'index']);
+    Route::middleware('auth:sanctum')->post('/global-messages/send', [GlobalMessageController::class, 'sendMessage']);
 
 });
