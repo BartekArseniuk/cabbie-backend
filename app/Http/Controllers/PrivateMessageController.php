@@ -20,26 +20,25 @@ class PrivateMessageController extends Controller
     public function sendMessage(Request $request)
     {
         $request->validate([
-            'receiver_id' => 'required|exists:users,id',
+            'receiver_email' => 'required|email|exists:users,email',
             'title' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
     
+        $receiver = \App\Models\User::where('email', $request->input('receiver_email'))->firstOrFail();
+        
         $message = PrivateMessage::create([
             'sender_id' => $request->user()->id,
             'sender_email' => $request->user()->email,
-            'receiver_id' => $request->input('receiver_id'),
+            'receiver_id' => $receiver->id,
             'title' => $request->input('title'),
             'message' => $request->input('message'),
             'sent_at' => now(),
         ]);
-    
-        $message->sender_email = $request->user()->email;
     
         return response()->json([
             'message' => 'Message sent successfully!',
             'data' => $message
         ], 201);
     }
-    
 }
