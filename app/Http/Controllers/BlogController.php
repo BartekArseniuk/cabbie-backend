@@ -21,12 +21,24 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+        $currentBlogCount = Blog::count();
+        if ($currentBlogCount >= 9) {
+            return response()->json([
+                'message' => 'Maksymalna liczba aktualności została osiągnięta. Możesz mieć maksymalnie 9 aktualności.',
+            ], 403);
+        }
+        
         $validatedData = $request->validate([
             'image_base64' => 'required|string',
             'title' => 'required|string|max:255',
             'date' => 'required|date',
             'author' => 'required|string|max:255',
             'content' => 'required|string',
+        ], [
+            'image_base64.required' => 'Tło jest wymagane.',
+            'title.required' => 'Tytuł jest wymagany.',
+            'author.required' => 'Autor jest wymagany.',
+            'content.required' => 'Treść jest wymagana.',
         ]);
 
         $blog = Blog::create([
@@ -41,7 +53,7 @@ class BlogController extends Controller
             'message' => 'Wpis blogowy został dodany pomyślnie!',
             'blog' => $blog
         ], 201);
-    }
+    }    
 
     public function update(Request $request, $id)
     {
@@ -53,6 +65,11 @@ class BlogController extends Controller
             'date' => 'required|date',
             'author' => 'required|string|max:255',
             'content' => 'required|string',
+        ], [
+            'image_base64.required' => 'Tło jest wymagane.',
+            'title.required' => 'Tytuł jest wymagany.',
+            'author.required' => 'Autor jest wymagany.',
+            'content.required' => 'Treść jest wymagana.',
         ]);
 
         $blog->update(array_filter($validatedData));
