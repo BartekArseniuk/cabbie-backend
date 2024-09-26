@@ -59,6 +59,7 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
     Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         Route::post('/blogs', [BlogController::class, 'store']);
         Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
+        Route::put('/blogs/{id}', [BlogController::class, 'update']);
     });
 
     Route::middleware('auth:sanctum')->get('/messages', [PrivateMessageController::class, 'index']);
