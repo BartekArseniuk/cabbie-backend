@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('Password@123'),
             'is_first_login' => 0,
             'role' => 'admin',
+            'email_verified_at' => Carbon::now(),
         ]);
 
         /*
