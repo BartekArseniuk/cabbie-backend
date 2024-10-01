@@ -28,10 +28,10 @@ class BlogController extends Controller
             ], 403);
         }
         
+        // Walidacja (bez wymogu daty)
         $validatedData = $request->validate([
             'image_base64' => 'required|string',
             'title' => 'required|string|max:255',
-            'date' => 'required|date',
             'author' => 'required|string|max:255',
             'content' => 'required|string',
         ], [
@@ -41,10 +41,10 @@ class BlogController extends Controller
             'content.required' => 'Treść jest wymagana.',
         ]);
 
+        // Tworzenie nowego wpisu blogowego (bez pola daty)
         $blog = Blog::create([
             'image_base64' => $validatedData['image_base64'],
             'title' => $validatedData['title'],
-            'date' => $validatedData['date'],
             'author' => $validatedData['author'],
             'content' => $validatedData['content'],
         ]);
@@ -53,16 +53,16 @@ class BlogController extends Controller
             'message' => 'Wpis blogowy został dodany pomyślnie!',
             'blog' => $blog
         ], 201);
-    }    
+    }
 
     public function update(Request $request, $id)
     {
         $blog = Blog::findOrFail($id);
 
+        // Walidacja (bez wymogu daty)
         $validatedData = $request->validate([
             'image_base64' => 'nullable|string',
             'title' => 'required|string|max:255',
-            'date' => 'required|date',
             'author' => 'required|string|max:255',
             'content' => 'required|string',
         ], [
@@ -72,6 +72,7 @@ class BlogController extends Controller
             'content.required' => 'Treść jest wymagana.',
         ]);
 
+        // Aktualizacja danych bloga (bez pola daty)
         $blog->update(array_filter($validatedData));
 
         return response()->json([
