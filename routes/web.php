@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\CheckSessionExpiry;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\GooglePlacesController;
 
 
 Route::get('/', function () {
@@ -62,5 +63,7 @@ Route::get('/test-session', function () {
 
 Route::get('/blogs', [BlogController::class, 'index']);
 Route::get('/blogs/{id}', [BlogController::class, 'show']);
+
+Route::get('/reviews/{placeId}', [GooglePlacesController::class, 'getReviews']);
 
 require __DIR__.'/auth.php';
