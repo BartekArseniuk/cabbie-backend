@@ -39,4 +39,17 @@ class GlobalMessageController extends Controller
             'data' => $message
         ], 201);
     }
+
+    public function markAsRead($id)
+    {
+        $message = GlobalMessage::findOrFail($id);
+        
+        $message->is_read = true;
+        $message->save();
+
+        return response()->json([
+            'message' => 'Message marked as read successfully!',
+            'data' => $message
+        ]);
+    }
 }

@@ -19,6 +19,7 @@ class CreateGlobalMessagesTable extends Migration
             $table->string('title');
             $table->text('message');
             $table->timestamp('sent_at')->nullable();
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
