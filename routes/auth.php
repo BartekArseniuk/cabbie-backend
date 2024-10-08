@@ -70,4 +70,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
 
     Route::post('/global-messages/{id}/read', [GlobalMessageController::class, 'markAsRead']);
     Route::post('/private-messages/{id}/read', [PrivateMessageController::class, 'markAsRead']);
+
+    Route::get('global-messages/has-unread', [GlobalMessageController::class, 'hasUnreadMessages']);
+    Route::get('private-messages/has-unread', [PrivateMessageController::class, 'hasUnreadMessages']);
+
 });

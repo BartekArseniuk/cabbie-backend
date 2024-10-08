@@ -52,4 +52,13 @@ class GlobalMessageController extends Controller
             'data' => $message
         ]);
     }
+
+    public function hasUnreadMessages()
+    {
+        $hasUnreadMessages = GlobalMessage::where('is_read', false)->exists();
+
+        return response()->json([
+            'hasUnreadMessages' => $hasUnreadMessages
+        ]);
+    }
 }

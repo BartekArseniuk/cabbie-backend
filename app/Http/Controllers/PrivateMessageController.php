@@ -54,4 +54,15 @@ class PrivateMessageController extends Controller
             'data' => $message
         ]);
     }
+    public function hasUnreadMessages(Request $request)
+    {
+        $hasUnreadMessages = PrivateMessage::where('receiver_id', $request->user()->id)
+                                            ->where('is_read', false)
+                                            ->exists();
+
+        return response()->json([
+            'hasUnreadMessages' => $hasUnreadMessages
+        ]);
+    }
+
 }
