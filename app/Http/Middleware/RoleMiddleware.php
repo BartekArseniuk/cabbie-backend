@@ -18,7 +18,7 @@ class RoleMiddleware
         if (auth()->check() && auth()->user()->role === $role) {
             return $next($request);
         }
-    
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }    
+
+        return response()->view('auth.unauthorized', [], 403);
+    }
 }

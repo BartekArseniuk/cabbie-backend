@@ -14,6 +14,13 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GlobalMessageController;
 
 Route::middleware([CheckSessionExpiry::class])->group(function () {
+    
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+        Route::post('/blogs', [BlogController::class, 'store']);
+        Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
+        Route::put('/blogs/{id}', [BlogController::class, 'update']);
+        Route::post('/global-messages/send', [GlobalMessageController::class, 'sendMessage']);
+    });
 
     Route::post('/register', [RegisteredUserController::class, 'store'])
         ->middleware('guest')
@@ -56,20 +63,14 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
         return response()->json(['logged_in' => auth()->check()]);
     });
 
-    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-        Route::post('/blogs', [BlogController::class, 'store']);
-        Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
-        Route::put('/blogs/{id}', [BlogController::class, 'update']);
-    });
 
     Route::middleware('auth:sanctum')->get('/messages', [PrivateMessageController::class, 'index']);
     Route::middleware('auth:sanctum')->post('/messages/send', [PrivateMessageController::class, 'sendMessage']);
 
     Route::middleware('auth:sanctum')->get('/global-messages', [GlobalMessageController::class, 'index']);
-    Route::middleware('auth:sanctum')->post('/global-messages/send', [GlobalMessageController::class, 'sendMessage']);
 
-    Route::post('/global-messages/{id}/read', [GlobalMessageController::class, 'markAsRead']);
-    Route::post('/private-messages/{id}/read', [PrivateMessageController::class, 'markAsRead']);
+    Route::put('/global-messages/{id}/read', [GlobalMessageController::class, 'markAsRead']);
+    Route::put('/private-messages/{id}/read', [PrivateMessageController::class, 'markAsRead']);
 
     Route::get('global-messages/has-unread', [GlobalMessageController::class, 'hasUnreadMessages']);
     Route::get('private-messages/has-unread', [PrivateMessageController::class, 'hasUnreadMessages']);
