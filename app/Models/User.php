@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'verification_token_created_at',
         'is_first_login',
         'last_activity',
+        'is_form_verified'
     ];
 
     protected $hidden = [

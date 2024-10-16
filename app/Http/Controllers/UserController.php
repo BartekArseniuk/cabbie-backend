@@ -24,8 +24,8 @@ class UserController extends Controller
 
         if (auth()->user()->role !== 'admin' && auth()->user()->id != $id) {
             return response()->json(['message' => 'Unauthorized'], 403);
-        }        
-    
+        }
+
         return response()->json($user, 200);
     }
 
@@ -38,8 +38,8 @@ class UserController extends Controller
         }
         if (auth()->user()->role !== 'admin' && auth()->user()->id != $id) {
             return response()->json(['message' => 'Unauthorized'], 403);
-        }        
-    
+        }
+
         $validator = Validator::make($request->all(), [
             'first_name' => 'string|max:255',
             'last_name' => 'string|max:255',
@@ -65,5 +65,31 @@ class UserController extends Controller
         $user->save();
 
         return response()->json($user, 200);
+    }
+
+    public function verifyForm(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'is_form_verified' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user->is_form_verified = $request->input('is_form_verified');
+        $user->save();
+
+        return response()->json(['message' => 'Form verification status updated', 'user' => $user], 200);
     }
 }

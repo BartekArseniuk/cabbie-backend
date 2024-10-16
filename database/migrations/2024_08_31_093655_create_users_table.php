@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_first_login')->default(true);
             $table->string('verification_token')->nullable();
             $table->timestamp('verification_token_created_at')->nullable();
+            $table->boolean('is_form_verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -31,4 +31,15 @@ class SurveyController extends Controller
 
         return response()->json(['message' => 'Survey submitted successfully']);
     }
+
+    public function getSurveyByUserId($userId)
+    {
+        $surveyAnswer = SurveyAnswer::where('user_id', $userId)->first();
+
+        if (!$surveyAnswer) {
+            return response()->json(['message' => 'No survey found for the specified user'], 404);
+        }
+
+        return response()->json($surveyAnswer);
+    }
 }

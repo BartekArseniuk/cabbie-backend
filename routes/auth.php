@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckSessionExpiry;
@@ -20,6 +18,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
         Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
         Route::put('/blogs/{id}', [BlogController::class, 'update']);
         Route::post('/global-messages/send', [GlobalMessageController::class, 'sendMessage']);
+        Route::put('/users/{id}/verify-form', [UserController::class, 'verifyForm']);
+        Route::get('/survey/user/{id}', [SurveyController::class, 'getSurveyByUserId']);
     });
 
     Route::post('/register', [RegisteredUserController::class, 'store'])
