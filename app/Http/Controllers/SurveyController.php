@@ -36,10 +36,6 @@ class SurveyController extends Controller
     {
         $surveyAnswer = SurveyAnswer::where('user_id', $userId)->first();
 
-        if (!$surveyAnswer) {
-            return response()->json(['message' => 'No survey found for the specified user'], 404);
-        }
-
         return response()->json($surveyAnswer);
     }
 }
