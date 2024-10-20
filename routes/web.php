@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\CheckSessionExpiry;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GooglePlacesController;
+use App\Http\Controllers\SectionController;
 
 
 Route::get('/', function () {
@@ -53,8 +54,6 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
     Route::get('/password-reset-expired', function () {
         return view('auth.password-reset-expired');
     })->name('password.reset.expired');
-
-
 });
 
 Route::get('/test-session', function () {
@@ -65,5 +64,7 @@ Route::get('/blogs', [BlogController::class, 'index']);
 Route::get('/blogs/{id}', [BlogController::class, 'show']);
 
 Route::get('/reviews/{placeId}', [GooglePlacesController::class, 'getReviews']);
+
+Route::get('/sections', [SectionController::class, 'index']);
 
 require __DIR__.'/auth.php';

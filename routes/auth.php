@@ -10,9 +10,11 @@ use App\Http\Middleware\CheckSessionExpiry;
 use App\Http\Controllers\PrivateMessageController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GlobalMessageController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\QuestionController;
 
 Route::middleware([CheckSessionExpiry::class])->group(function () {
-    
+
     Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         Route::post('/blogs', [BlogController::class, 'store']);
         Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
@@ -20,6 +22,14 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
         Route::post('/global-messages/send', [GlobalMessageController::class, 'sendMessage']);
         Route::put('/users/{id}/verify-form', [UserController::class, 'verifyForm']);
         Route::get('/survey/user/{id}', [SurveyController::class, 'getSurveyByUserId']);
+        Route::post('/sections', [SectionController::class, 'store']);
+        Route::get('/sections/{section}', [SectionController::class, 'show']);
+        Route::put('/sections/{section}', [SectionController::class, 'update']);
+        Route::delete('/sections/{section}', [SectionController::class, 'destroy']);
+        Route::post('/questions', [QuestionController::class, 'store']);
+        Route::get('/questions/{question}', [QuestionController::class, 'show']);
+        Route::put('/questions/{question}', [QuestionController::class, 'update']);
+        Route::delete('/questions/{question}', [QuestionController::class, 'destroy']);
     });
 
     Route::post('/register', [RegisteredUserController::class, 'store'])
