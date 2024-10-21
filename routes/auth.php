@@ -23,11 +23,9 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
         Route::put('/users/{id}/verify-form', [UserController::class, 'verifyForm']);
         Route::get('/survey/user/{id}', [SurveyController::class, 'getSurveyByUserId']);
         Route::post('/sections', [SectionController::class, 'store']);
-        Route::get('/sections/{section}', [SectionController::class, 'show']);
         Route::put('/sections/{section}', [SectionController::class, 'update']);
         Route::delete('/sections/{section}', [SectionController::class, 'destroy']);
         Route::post('/questions', [QuestionController::class, 'store']);
-        Route::get('/questions/{question}', [QuestionController::class, 'show']);
         Route::put('/questions/{question}', [QuestionController::class, 'update']);
         Route::delete('/questions/{question}', [QuestionController::class, 'destroy']);
     });

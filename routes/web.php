@@ -9,7 +9,7 @@ use App\Http\Middleware\CheckSessionExpiry;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GooglePlacesController;
 use App\Http\Controllers\SectionController;
-
+use App\Http\Controllers\QuestionController;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
@@ -65,6 +65,7 @@ Route::get('/blogs/{id}', [BlogController::class, 'show']);
 
 Route::get('/reviews/{placeId}', [GooglePlacesController::class, 'getReviews']);
 
+Route::get('/questions', [QuestionController::class, 'index']);
 Route::get('/sections', [SectionController::class, 'index']);
 
 require __DIR__.'/auth.php';

@@ -20,12 +20,6 @@ class SectionController extends Controller
         return response()->json(['message' => 'Sekcja została dodana', 'section' => $section]);
     }
 
-    public function show(Section $section)
-    {
-        $section->load('questions');
-        return response()->json($section);
-    }
-
     public function update(Request $request, Section $section)
     {
         $request->validate(['title' => 'required']);

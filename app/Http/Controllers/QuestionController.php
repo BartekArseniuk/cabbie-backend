@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+    public function index()
+    {
+        $questions = Question::all();
+        return response()->json($questions);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -16,11 +22,6 @@ class QuestionController extends Controller
         ]);
         $question = Question::create($request->all());
         return response()->json(['message' => 'Pytanie zostało dodane', 'question' => $question]);
-    }
-
-    public function show(Question $question)
-    {
-        return response()->json($question);
     }
 
     public function update(Request $request, Question $question)
