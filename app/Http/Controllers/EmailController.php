@@ -17,7 +17,7 @@ class EmailController extends Controller
             'message' => 'required|string',
         ]);
 
-        Mail::to('wojteq898@gmail.com')->send(new ContactMail($validatedData));
+        Mail::to('biuro@cabbie.pl')->send(new ContactMail($validatedData));
 
         return response()->json(['message' => 'Wiadomość została wysłana pomyślnie.']);
     }
