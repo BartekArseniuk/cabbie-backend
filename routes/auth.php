@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::middleware([CheckSessionExpiry::class])->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->middleware('guest')
         ->name('login');
+    
+    Route::post('/admin/verify-code', [AuthenticatedSessionController::class, 'verifyCode']);
 
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
         ->middleware('guest')
