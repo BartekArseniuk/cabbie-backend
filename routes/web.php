@@ -10,6 +10,8 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GooglePlacesController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\EmailController;
+
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
@@ -67,5 +69,7 @@ Route::get('/reviews/{placeId}', [GooglePlacesController::class, 'getReviews']);
 
 Route::get('/questions', [QuestionController::class, 'index']);
 Route::get('/sections', [SectionController::class, 'index']);
+
+Route::post('/send-email', [EmailController::class, 'send']);
 
 require __DIR__.'/auth.php';
