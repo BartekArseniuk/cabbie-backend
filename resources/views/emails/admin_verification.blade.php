@@ -76,7 +76,7 @@
         <p>Wprowadź poniższy kod, aby zakończyć proces logowania:</p>
         <div class="code-box">{{ $code }}</div>
         <div class="footer">
-            <p>&copy; 2024 Twoja Firma. Wszystkie prawa zastrzeżone.</p>
+        <p>&copy; 2024 Cabbie. Wszystkie prawa zastrzeżone.</p>
         </div>
     </div>
 </body>
